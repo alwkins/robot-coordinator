@@ -15,7 +15,7 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
     <div className={styles.outerContainer}>
       <div className={styles.loginBar}>
         <span>
-          <b>USER: </b>Alison
+          <b>USER:  </b>Alison
         </span>
         <div>
           <b>LOG OUT</b>

@@ -9,7 +9,7 @@ export interface Robot {
   name: string;
   id: string;
   isAvailable: boolean;
-  activeTask: Task;
+  activeTaskId: string;
   availableTasks: Array<Task>;
   operatedBy: string;
 }

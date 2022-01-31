@@ -31,7 +31,11 @@ function TestDatabase() {
     );
     return response;
   };
-  const startRobotTaskwCheck = async () => {
+  const startRobotTaskwCheck = async (
+    robotId: string,
+    taskId: string,
+    operator: string
+  ) => {
     const docRef = doc(robotsCollection, robotId);
     const newTaskStatus = await runTransaction(firestore, async (transact) => {
       const robotDoc = await transact.get(docRef);
@@ -42,23 +46,14 @@ function TestDatabase() {
       if (currentIsAvailable) {
         transact.update(docRef, {
           isAvailable: false,
-          operatedBy: "Start Task Tester",
+          activeTaskId: taskId,
+          operatedBy: operator,
         });
         return currentIsAvailable;
       } else {
         return Promise.reject("Sorry, robot is already busy");
       }
     });
-  };
-  const stopRobotTask = async () => {
-    const docRef = doc(robotsCollection, robotId);
-    const response = await setDoc(
-      docRef,
-      { isAvailable: true, operatedBy: null },
-      { merge: true }
-    );
-    console.log(response);
-    return response;
   };
   const handleStart = () => {
     startRobotTask(robotId, "task-2", "Admin Alison");
@@ -69,7 +64,7 @@ function TestDatabase() {
       .catch((err) => console.log(err));
   };
   const handleStartwCheck = () => {
-    startRobotTaskwCheck()
+    startRobotTaskwCheck(robotId, "task-1", "Start w Check")
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
   };

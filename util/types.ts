@@ -13,3 +13,7 @@ export interface Robot {
   availableTasks: Array<Task>;
   operatedBy: string;
 }
+
+export const getTaskById = (taskArray: Array<Task>, taskId: string): Task => {
+  return taskArray.find(task => task.id === taskId);
+}

@@ -28,14 +28,14 @@ const robotsCollection = collection(firestore, "robots");
 const docSnapToRobot = (docSnap: QueryDocumentSnapshot<DocumentData>): Robot => {
   // availableTasks currently always undefined
   // Tasks are stored in separate collection
-  const { name, id, availableTasks, activeTaskId, isAvailable, operatedBy } =
+  const { name, availableTasks, activeTaskId, isAvailable, operatedBy } =
     docSnap.data();
-  return { name, id, availableTasks, activeTaskId, isAvailable, operatedBy };
+  return { name, id: docSnap.id, availableTasks, activeTaskId, isAvailable, operatedBy };
 };
 
 const docToTask = (docSnap: QueryDocumentSnapshot<DocumentData>): Task => {
-  const { id, description, activeDescription, durationS } = docSnap.data();
-  return { id, description, activeDescription, durationS };
+  const { description, activeDescription, durationS } = docSnap.data();
+  return { id: docSnap.id, description, activeDescription, durationS };
 };
 
 export async function getRobots() {

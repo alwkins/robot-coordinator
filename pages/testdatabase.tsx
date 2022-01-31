@@ -1,4 +1,4 @@
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, runTransaction, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { firestore, getRobotById, getRobots } from "../firebase/clientApp";
 import { ROBOTS } from "../store/dummyData";
@@ -31,6 +31,25 @@ function TestDatabase() {
     );
     return response;
   };
+  const startRobotTaskwCheck = async () => {
+    const docRef = doc(robotsCollection, robotId);
+    const newTaskStatus = await runTransaction(firestore, async (transact) => {
+      const robotDoc = await transact.get(docRef);
+      if (!robotDoc.exists()) {
+        throw "Robot does not exist";
+      }
+      const currentIsAvailable = robotDoc.data().isAvailable;
+      if (currentIsAvailable) {
+        transact.update(docRef, {
+          isAvailable: false,
+          operatedBy: "Start Task Tester",
+        });
+        return currentIsAvailable;
+      } else {
+        return Promise.reject("Sorry, robot is already busy");
+      }
+    });
+  };
   const stopRobotTask = async () => {
     const docRef = doc(robotsCollection, robotId);
     const response = await setDoc(
@@ -49,6 +68,11 @@ function TestDatabase() {
       .then((response) => console.log(response))
       .catch((err) => console.log(err));
   };
+  const handleStartwCheck = () => {
+    startRobotTaskwCheck()
+      .then((response) => console.log(response))
+      .catch((err) => console.log(err));
+  };
   const handleGetRobot = () => {
     getRobotById(robotId)
       .then((response) => console.log(response))
@@ -63,6 +87,7 @@ function TestDatabase() {
       ></input>
       <button onClick={setDocRobot}>Set Robot from Dummy Data</button>
       <button onClick={handleStart}>Start Task</button>
+      <button onClick={handleStartwCheck}>Start Task with Check</button>
       <button onClick={stopRobotTask}>Stop Task</button>
       <button onClick={handleGetRobots}>Get Robots</button>
       <button onClick={handleGetRobot}>Get Robot by ID</button>

@@ -34,7 +34,7 @@ export const ROBOTS: Array<Robot> = [
     name: "Roxi",
     id: "r5g6h7",
     isAvailable: false,
-    activeTaskId: "task-0",
+    activeTaskId: "task-1",
     availableTasks: AVAILABLE_TASKS,
     operatedBy: "Anthony Bourdain",
   },

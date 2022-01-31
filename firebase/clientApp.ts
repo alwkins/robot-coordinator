@@ -23,9 +23,9 @@ const clientCredentials = {
 const firebaseApp = initializeApp(clientCredentials);
 export const firestore = getFirestore(firebaseApp);
 
-const robotsCollection = collection(firestore, "robots");
+export const robotsCollection = collection(firestore, "robots");
 
-const docSnapToRobot = (docSnap: QueryDocumentSnapshot<DocumentData>): Robot => {
+export const docSnapToRobot = (docSnap: QueryDocumentSnapshot<DocumentData>): Robot => {
   // availableTasks currently always undefined
   // Tasks are stored in separate collection
   const { name, availableTasks, activeTaskId, isAvailable, operatedBy } =
@@ -33,7 +33,7 @@ const docSnapToRobot = (docSnap: QueryDocumentSnapshot<DocumentData>): Robot => 
   return { name, id: docSnap.id, availableTasks, activeTaskId, isAvailable, operatedBy };
 };
 
-const docToTask = (docSnap: QueryDocumentSnapshot<DocumentData>): Task => {
+const docSnapToTask = (docSnap: QueryDocumentSnapshot<DocumentData>): Task => {
   const { description, activeDescription, durationS } = docSnap.data();
   return { id: docSnap.id, description, activeDescription, durationS };
 };

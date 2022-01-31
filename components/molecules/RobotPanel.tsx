@@ -1,5 +1,5 @@
 import React from "react";
-import { Robot } from "../../util/types";
+import { Robot, Task } from "../../util/types";
 import styles from "./RobotPanel.module.css";
 
 export interface RobotPanelProps {
@@ -8,27 +8,33 @@ export interface RobotPanelProps {
 
 export const RobotPanel = (props: RobotPanelProps) => {
   const { robot } = props;
+  const { name, id, isAvailable, activeTaskId, availableTasks, operatedBy } = robot;
+  const activeTask = availableTasks.find(task => task.id === activeTaskId);
   return (
     <div className={styles.container}>
+
+      {/* Status Display */}
       <div className={styles.statusContainer}>
-        <span className={styles.statusText}>Robot Name: {robot.name}</span>
-        <span className={styles.statusText}>Robot ID: {robot.id}</span>
+        <span className={styles.statusText}>Robot Name: {name}</span>
+        <span className={styles.statusText}>Robot ID: {id}</span>
         <span className={styles.statusText}>
           Status:{" "}
-          {robot.isAvailable ? (
+          {isAvailable ? (
             <span className={styles.available}>Available</span>
           ) : (
             <span className={styles.busy}>
-              {robot.activeTask.activeDescription}
+              {activeTask.activeDescription}
             </span>
           )}
         </span>
-        {robot.isAvailable ? null : (
+        {isAvailable ? null : (
           <span className={styles.statusText}>
-            Operated By: {robot.operatedBy}
+            Operated By: {operatedBy}
           </span>
         )}
       </div>
+
+      {/* Graphic */}
       <img
         className={
           robot.isAvailable
@@ -40,6 +46,8 @@ export const RobotPanel = (props: RobotPanelProps) => {
         width="240"
         height="162"
       />
+
+      {/* Task Buttons */}
       <span className={styles.statusText}>Start Task</span>
       {robot.availableTasks.map((task) => {
         return <div className={styles.button}>{task.description}</div>;

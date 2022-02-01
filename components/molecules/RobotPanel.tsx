@@ -2,7 +2,7 @@ import React from "react";
 import { getTaskById, Robot, Task } from "../../util/types";
 import styles from "./RobotPanel.module.css";
 
-export interface RobotPanelProps {
+interface RobotPanelProps {
   robot: Robot;
   startTask: (robotId: string, taskId: string, taskDurationS: number) => void;
   forceReset: (robotId: string) => void;

@@ -2,7 +2,7 @@ import React from "react";
 import { Robot } from "../../util/types";
 import styles from "./RobotSelector.module.css";
 
-export interface RobotSelectorProps {
+interface RobotSelectorProps {
   robots: Array<Robot>;
   selectedIndex: number;
   onSelect: (number) => void;

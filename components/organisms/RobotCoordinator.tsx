@@ -39,7 +39,7 @@ TypeScript
 
 */
 
-export interface RobotCoordinatorProps {
+interface RobotCoordinatorProps {
   user: string;
   logout: () => void;
 }

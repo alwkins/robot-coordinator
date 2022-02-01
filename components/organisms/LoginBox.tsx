@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./LoginBox.module.css";
 
-export interface LoginBoxProps {
+interface LoginBoxProps {
   attemptLogin: (user: string, pw: string) => void;
 }
 

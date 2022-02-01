@@ -141,6 +141,12 @@ const validUsers: Array<User> = [
   }
 ]
 
+/**
+ * Check if username and password are found in hard-coded array of credentials
+ * @param {string} username - Username
+ * @param {string} password - Password
+ * @return {boolean}
+ */
 export const authenticateUser = (username: string, password: string): boolean => {
   // Return if user is authentic or not
   // Credentials are hard-coded for now

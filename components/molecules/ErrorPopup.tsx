@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./ErrorPopup.module.css";
 
-export interface ErrorPopupProps {
+interface ErrorPopupProps {
   message: string;
   onAcknowledge: () => void; // Runs when OK is pressed
 }

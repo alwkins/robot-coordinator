@@ -35,6 +35,10 @@ The robot data displayed stays up to date, even when a task was started by anoth
 
 ## Run
 
+### View Deployment on Vercel
+
+The deployed project can be viewed on the web at https://robot-coordinator.vercel.app/.
+
 ### Run Locally
 
 This instructions are written for MacOS.

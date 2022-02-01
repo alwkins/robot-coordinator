@@ -26,7 +26,7 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
     );
 
   const handleErrAck = () => {
-    // OK on error pop-up closes it
+    // Close error pop-up when OK is clicked
     setIsError(false);
     setErrorMsg("");
   };
@@ -50,12 +50,14 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
         }, taskDurationS * 1000);
       })
       .catch((err) => {
+        // Failed with error, display error pop-up
         setErrorMsg(`Could not start task. ${err}`);
         setIsError(true);
       });
   };
 
   const stopTaskOnRobot = (robotId: string) => {
+    // Stop robot task on the robot specified
     stopRobotTask(robotId)
       .then((res) => console.log("Task stopped successfully"))
       .catch((err) => {
@@ -64,9 +66,10 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
       });
   };
 
-  useEffect(robotListener, []);
+  useEffect(robotListener, []); // Sets up realtime updates from database
 
   if (robots.length === 0) {
+    // TODO Display nicer spinner animation
     return <div>Loading...</div>;
   }
 

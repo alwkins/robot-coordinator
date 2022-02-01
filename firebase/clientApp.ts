@@ -28,6 +28,7 @@ const firestore = getFirestore(firebaseApp);
 export const robotsCollection = collection(firestore, "robots");
 
 export const docSnapToRobot = (
+  // Convert document snapshot to Robot interface
   docSnap: QueryDocumentSnapshot<DocumentData>
 ): Robot => {
   // availableTasks currently always undefined
@@ -45,13 +46,14 @@ export const docSnapToRobot = (
 };
 
 const docSnapToTask = (docSnap: QueryDocumentSnapshot<DocumentData>): Task => {
+  // Convert document snapshot to Task interface
   const { description, activeDescription, durationS } = docSnap.data();
   return { id: docSnap.id, description, activeDescription, durationS };
 };
 
 export async function getRobots() {
+  // Get robot data from 'robots' collection
   try {
-    // Get robot data
     const querySnap = await getDocs(robotsCollection);
     const robotData = querySnap.docs.map((docSnap) => docSnapToRobot(docSnap));
     return robotData;
@@ -61,16 +63,23 @@ export async function getRobots() {
 }
 
 export async function getRobotById(id: string) {
+  // Get robot document from 'robots' collection by object ID
   const docRef = doc(robotsCollection, id);
   const docSnap = await getDoc(docRef);
   if (docSnap.exists()) {
     return docSnapToRobot(docSnap);
   } else {
-    // doc.data() undefied
     console.log(`Robot with id ${id} not found`);
   }
 }
 
+/**
+ * Start robot task if robot is available
+ * @param {string} robotId - The object ID of robot to start task on
+ * @param {string} taskId - The task ID of task to start
+ * @param {string} operator - The operator's name
+ * @return {Promise<void>}
+ */
 export const startRobotTaskwCheck = async (
   robotId: string,
   taskId: string,
@@ -97,6 +106,11 @@ export const startRobotTaskwCheck = async (
   });
 };
 
+/**
+ * Stop robot task on specified robot
+ * @param {string} robotId - The object ID of the robot
+ * @return {Promise<void>}
+ */
 export const stopRobotTask = async (robotId: string) => {
   const docRef = doc(robotsCollection, robotId);
   const response = await setDoc(

@@ -1,10 +1,9 @@
 import React from "react";
-import { text } from "stream/consumers";
 import styles from "./ErrorPopup.module.css";
 
 export interface ErrorPopupProps {
   message: string;
-  onAcknowledge: () => void;
+  onAcknowledge: () => void; // Runs when OK is pressed
 }
 
 export const ErrorPopup = (props: ErrorPopupProps) => {

@@ -14,10 +14,12 @@ export const RobotPanel = (props: RobotPanelProps) => {
     robot;
   const activeTask = getTaskById(availableTasks, activeTaskId)
   const handleStartTask = (event) => {
+    // Task button is pressed
     const selectedTask = getTaskById(availableTasks, event.target.id);
     startTask(id, selectedTask.id, selectedTask.durationS);
   };
   const handleForceReset = (event) => {
+    // Force reset is pressed
     forceReset(id);
   }
   return (

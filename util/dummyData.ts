@@ -1,4 +1,4 @@
-import { Task, Robot } from "../util/types";
+import { Task, Robot } from "./types";
 
 export const AVAILABLE_TASKS: Array<Task> = [
   {

@@ -128,8 +128,8 @@ export interface User  {
 
 const validUsers: Array<User> = [
   {
-    user: "Gordon Ramsey",
-    password: "gordonramsey"
+    user: "Gordon Ramsay",
+    password: "gordonramsay"
   },
   {
     user: "Julia Child",

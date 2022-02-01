@@ -6,7 +6,7 @@ Next.js project simulating control of a robot fleet from a web page.
 
 A fleet of cooking robots can be assigned tasks by operators. The approved operator list is as follows:
 
-**User:** Gordon Ramsey, **Password:** gordonramsey  
+**User:** Gordon Ramsay, **Password:** gordonramsay  
 **User:** Julia Child, **Password:** juliachild  
 **User:** Ratatouille, **Password:** ratatouille  
 

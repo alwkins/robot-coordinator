@@ -13,13 +13,13 @@ import {
 import { Robot, Task } from "../util/types";
 
 const clientCredentials = {
-  // Use environment vars so credentials protected
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  // TODO Use environment vars so credentials protected
+  apiKey: 'AIzaSyB6dB-nMkisYi9zIzTyg1uRNswYxr6QSuY',
+  authDomain: 'robot-coordinator.firebaseapp.com',
+  projectId: 'robot-coordinator',
+  storageBucket: 'robot-coordinator.appspot.com',
+  messagingSenderId: '380727187054',
+  appId: '1:380727187054:web:b47e25010986d098fcb87f',
 };
 
 const firebaseApp = initializeApp(clientCredentials);

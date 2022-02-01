@@ -23,7 +23,7 @@ const clientCredentials = {
 };
 
 const firebaseApp = initializeApp(clientCredentials);
-export const firestore = getFirestore(firebaseApp);
+const firestore = getFirestore(firebaseApp);
 
 export const robotsCollection = collection(firestore, "robots");
 

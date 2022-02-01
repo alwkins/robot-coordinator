@@ -10,17 +10,26 @@ import {
   startRobotTaskwCheck,
 } from "../../firebase/clientApp";
 import { onSnapshot } from "firebase/firestore";
+import { ErrorPopup } from "../molecules/ErrorPopup";
 
 export interface RobotCoordinatorProps {}
 
 export const RobotCoordinator = (props: RobotCoordinatorProps) => {
   const [selectedRobotIndex, setselectedRobotIndex] = useState(0); // Init with first robot selected
   const [robots, setRobots] = useState<Array<Robot>>([]);
+  const [isError, setIsError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const robotListener = () =>
     onSnapshot(robotsCollection, (snapshot) =>
       setRobots(snapshot.docs.map((doc) => docSnapToRobot(doc)))
     );
+
+  const handleErrAck = () => {
+    // OK on error pop-up closes it
+    setIsError(false);
+    setErrorMsg("");
+  }
 
   const startTaskOnRobot = (
     robotId: string,
@@ -40,7 +49,10 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
           );
         }, taskDurationS * 1000);
       })
-      .catch((err) => console.log("Error starting task!", err));
+      .catch((err) => {
+        setErrorMsg(`Could not start task. ${err}`)
+        setIsError(true);
+      });
   };
 
   useEffect(robotListener, []);
@@ -51,6 +63,7 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
 
   return (
     <div className={styles.outerContainer}>
+      {/* Login Bar */}
       <div className={styles.loginBar}>
         <span>
           <b>USER: </b>Alison
@@ -59,6 +72,8 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
           <b>LOG OUT</b>
         </div>
       </div>
+
+      {/* Robot List and Current Robot View */}
       <div className={styles.contentContainer}>
         <RobotSelector
           robots={robots}
@@ -70,6 +85,10 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
           startTask={startTaskOnRobot}
         />
       </div>
+
+      {/* Error Pop-Up */}
+      {isError ? (<ErrorPopup message={errorMsg} onAcknowledge={handleErrAck} />) : null}
+
     </div>
   );
 };

@@ -1,26 +1,32 @@
-import { getRobots } from "../firebase/clientApp";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { RobotCoordinator } from "../components/organisms/RobotCoordinator";
 import { Robot } from "../util/types";
+import { LoginBox } from "../components/organisms/LoginBox";
+import { authenticateUser } from "../firebase/clientApp";
 
 interface HomePageProps {
   robots: Array<Robot>;
 }
 
 function HomePage() {
-  const [robots, setRobots] = useState<Robot[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const robotData = getRobots();
-
-  useEffect(() => {
-    robotData.then((res: any) => {
-      setRobots(res);
-      setLoading(false);
-    });
-  }, []);
-
-  return loading ? null : <RobotCoordinator />;
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [loggedInUser, setLoggedInUser] = useState("");
+  const attemptAuthentication = (user: string, pw: string) => {
+    if (authenticateUser(user, pw)) {
+      // User is valid
+      setLoggedInUser(user);
+      setLoggedIn(true);
+    } else {
+      // TODO This is janky
+      // Ideally show nice message and clear fields instead
+      alert('Login failed, please try again.')
+    }
+  };
+  return loggedIn ? (
+    <RobotCoordinator user={loggedInUser}/>
+  ) : (
+    <LoginBox attemptLogin={attemptAuthentication} />
+  );
 }
 
 export default HomePage;

@@ -120,3 +120,30 @@ export const stopRobotTask = async (robotId: string) => {
   );
   return response;
 };
+
+export interface User  {
+  user: string;
+  password: string;
+}
+
+const validUsers: Array<User> = [
+  {
+    user: "Gordon Ramsey",
+    password: "gordonramsey"
+  },
+  {
+    user: "Julia Child",
+    password: "juliachild"
+  },
+  {
+    user: "Ratatouille",
+    password: "ratatouille"
+  }
+]
+
+export const authenticateUser = (username: string, password: string): boolean => {
+  // Return if user is authentic or not
+  // Credentials are hard-coded for now
+  const match = validUsers.find(user => user.user === username && user.password === password)
+  return match ? true : false;
+}

@@ -12,7 +12,36 @@ import {
 import { onSnapshot } from "firebase/firestore";
 import { ErrorPopup } from "../molecules/ErrorPopup";
 
-export interface RobotCoordinatorProps {}
+/* Future Improvements!
+
+Use Repo Pattern
+- Use repository pattern to protect components from accessing firebase/clientApp directly
+- Would create a robotStore and userStore to handle robot data and authentication, respectively
+
+Use More Next.js Built-In Functionality
+- The built-in API routes and router would be useful if application expanded
+
+Better Error Handling
+- Handle errors more gracefully, e.g. network errors
+- More finessed usage of async/await and promises
+
+Authentication
+- Use Firebase Authentication to do it for real
+
+Proper Buttons
+- Should replace <div> with <button>, make into reusable components
+
+Reusable Styling
+- Had a lot of duplicate CSS, should make CSS reusable
+
+TypeScript
+- Missing types in some places
+
+*/
+
+export interface RobotCoordinatorProps {
+  user: string;
+}
 
 export const RobotCoordinator = (props: RobotCoordinatorProps) => {
   const [selectedRobotIndex, setselectedRobotIndex] = useState(0); // Init with first robot selected
@@ -37,7 +66,7 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
     taskDurationS: number
   ) => {
     // Start robot task, will use database transaction to check first if robot is busy
-    startRobotTaskwCheck(robotId, taskId, "Coordinator")
+    startRobotTaskwCheck(robotId, taskId, props.user)
       .then((res) => {
         console.log("Task set successfully!");
         // In real world, robot would report back to database when task finished
@@ -78,7 +107,7 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
       {/* Login Bar */}
       <div className={styles.loginBar}>
         <span>
-          <b>USER: </b>Alison
+          <b>USER: </b>{props.user}
         </span>
         <div>
           <b>LOG OUT</b>

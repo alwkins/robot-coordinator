@@ -41,9 +41,11 @@ TypeScript
 
 export interface RobotCoordinatorProps {
   user: string;
+  logout: () => void;
 }
 
 export const RobotCoordinator = (props: RobotCoordinatorProps) => {
+  const { user, logout } = props;
   const [selectedRobotIndex, setselectedRobotIndex] = useState(0); // Init with first robot selected
   const [robots, setRobots] = useState<Array<Robot>>([]);
   const [isError, setIsError] = useState(false);
@@ -66,7 +68,7 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
     taskDurationS: number
   ) => {
     // Start robot task, will use database transaction to check first if robot is busy
-    startRobotTaskwCheck(robotId, taskId, props.user)
+    startRobotTaskwCheck(robotId, taskId, user)
       .then((res) => {
         console.log("Task set successfully!");
         // In real world, robot would report back to database when task finished
@@ -107,9 +109,9 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
       {/* Login Bar */}
       <div className={styles.loginBar}>
         <span>
-          <b>USER: </b>{props.user}
+          <b>USER: </b>{user}
         </span>
-        <div>
+        <div style={{cursor: 'pointer'}} onClick={logout}>
           <b>LOG OUT</b>
         </div>
       </div>

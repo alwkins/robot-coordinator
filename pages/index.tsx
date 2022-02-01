@@ -4,10 +4,6 @@ import { Robot } from "../util/types";
 import { LoginBox } from "../components/organisms/LoginBox";
 import { authenticateUser } from "../firebase/clientApp";
 
-interface HomePageProps {
-  robots: Array<Robot>;
-}
-
 function HomePage() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loggedInUser, setLoggedInUser] = useState("");
@@ -22,8 +18,12 @@ function HomePage() {
       alert('Login failed, please try again.')
     }
   };
+  const logout = () => {
+    setLoggedInUser("");
+    setLoggedIn(false);
+  }
   return loggedIn ? (
-    <RobotCoordinator user={loggedInUser}/>
+    <RobotCoordinator user={loggedInUser} logout={logout} />
   ) : (
     <LoginBox attemptLogin={attemptAuthentication} />
   );

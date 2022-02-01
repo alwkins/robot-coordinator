@@ -29,7 +29,7 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
     // OK on error pop-up closes it
     setIsError(false);
     setErrorMsg("");
-  }
+  };
 
   const startTaskOnRobot = (
     robotId: string,
@@ -50,7 +50,16 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
         }, taskDurationS * 1000);
       })
       .catch((err) => {
-        setErrorMsg(`Could not start task. ${err}`)
+        setErrorMsg(`Could not start task. ${err}`);
+        setIsError(true);
+      });
+  };
+
+  const stopTaskOnRobot = (robotId: string) => {
+    stopRobotTask(robotId)
+      .then((res) => console.log("Task stopped successfully"))
+      .catch((err) => {
+        setErrorMsg(`Could not stop task. ${err}`);
         setIsError(true);
       });
   };
@@ -83,12 +92,14 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
         <RobotPanel
           robot={robots[selectedRobotIndex]}
           startTask={startTaskOnRobot}
+          forceReset={stopTaskOnRobot}
         />
       </div>
 
       {/* Error Pop-Up */}
-      {isError ? (<ErrorPopup message={errorMsg} onAcknowledge={handleErrAck} />) : null}
-
+      {isError ? (
+        <ErrorPopup message={errorMsg} onAcknowledge={handleErrAck} />
+      ) : null}
     </div>
   );
 };

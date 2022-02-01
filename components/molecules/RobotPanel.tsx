@@ -5,10 +5,11 @@ import styles from "./RobotPanel.module.css";
 export interface RobotPanelProps {
   robot: Robot;
   startTask: (robotId: string, taskId: string, taskDurationS: number) => void;
+  forceReset: (robotId: string) => void;
 }
 
 export const RobotPanel = (props: RobotPanelProps) => {
-  const { robot, startTask } = props;
+  const { robot, startTask, forceReset } = props;
   const { name, id, isAvailable, activeTaskId, availableTasks, operatedBy } =
     robot;
   const activeTask = getTaskById(availableTasks, activeTaskId)
@@ -16,6 +17,9 @@ export const RobotPanel = (props: RobotPanelProps) => {
     const selectedTask = getTaskById(availableTasks, event.target.id);
     startTask(id, selectedTask.id, selectedTask.durationS);
   };
+  const handleForceReset = (event) => {
+    forceReset(id);
+  }
   return (
     <div className={styles.container}>
       {/* Status Display */}
@@ -62,6 +66,7 @@ export const RobotPanel = (props: RobotPanelProps) => {
           </div>
         );
       })}
+      <div className={styles.buttonAbort} onClick={handleForceReset}>Force Reset</div>
     </div>
   );
 };

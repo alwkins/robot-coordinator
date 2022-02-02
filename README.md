@@ -78,3 +78,7 @@ This instructions are written for MacOS.
 16. Configure screen so that you can see both pages at once.
 17. Select the same robots in both the original page and the new page.
 18. Start a task on one page and observe that the other page updates to match.
+
+### Sequence Diagram
+
+![robot-coordinator-task-flow](https://user-images.githubusercontent.com/75457552/152084939-54ae3969-933e-416a-bd37-e362655d5a5c.png)

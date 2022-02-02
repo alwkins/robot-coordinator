@@ -6,11 +6,10 @@ import styles from "./RobotCoordinator.module.css";
 import {
   robotsCollection,
   docSnapToRobot,
-  stopRobotTask,
-  startRobotTaskwCheck,
 } from "../../firebase/clientApp";
 import { onSnapshot } from "firebase/firestore";
 import { ErrorPopup } from "../molecules/ErrorPopup";
+import { RobotSimulation } from "../../util/RobotSimulation";
 
 /* Future Improvements!
 
@@ -67,18 +66,13 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
     taskId: string,
     taskDurationS: number
   ) => {
+    const simRobot = new RobotSimulation(robotId);
     // Start robot task, will use database transaction to check first if robot is busy
-    startRobotTaskwCheck(robotId, taskId, user)
+    simRobot.startTask(taskId, user)
       .then((res) => {
+        // Send cmd to simulated robot, which will report done after task is "finished"
+        simRobot.startTaskExecution(taskId, taskDurationS);
         console.log("Task set successfully!");
-        // In real world, robot would report back to database when task finished
-        // Simulate here with delayed function call
-        setTimeout(() => {
-          stopRobotTask(robotId);
-          console.log(
-            `Simulating robot ${robotId} reporting task ${taskId} finished`
-          );
-        }, taskDurationS * 1000);
       })
       .catch((err) => {
         // Failed with error, display error pop-up
@@ -88,8 +82,10 @@ export const RobotCoordinator = (props: RobotCoordinatorProps) => {
   };
 
   const stopTaskOnRobot = (robotId: string) => {
-    // Stop robot task on the robot specified
-    stopRobotTask(robotId)
+    // Abort robot task on the robot specified
+    // Created in case robot hangs on task
+    const simRobot = new RobotSimulation(robotId);
+    simRobot.stopTask()
       .then((res) => console.log("Task stopped successfully"))
       .catch((err) => {
         setErrorMsg(`Could not stop task. ${err}`);
